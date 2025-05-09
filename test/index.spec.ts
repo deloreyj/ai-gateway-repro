@@ -7,8 +7,8 @@ import { env } from 'cloudflare:workers';
 describe('Hello World worker', { timeout: 6000000 }, () => {
 	test('Can call AI gateway wholesaling', async () => {	
 		const aigateway = createAiGateway({
-			accountId: '233e652276745dde7b78a96cab6c0d00',
-			gateway: 'mcp-evals',
+			accountId: env.ACCOUNT_ID,
+			gateway: env.GATEWAY_ID,
 			apiKey: env.AI_GATEWAY_TOKEN,
 		});
 
@@ -26,7 +26,7 @@ describe('Hello World worker', { timeout: 6000000 }, () => {
 	});
 
 	test("can hit the ai gateway directly", async () => {
-		const response = await fetch('https://gateway.ai.cloudflare.com/v1/233e652276745dde7b78a96cab6c0d00/mcp-evals/openai/chat/completions', {
+		const response = await fetch(`https://gateway.ai.cloudflare.com/v1/${env.ACCOUNT_ID}/${env.GATEWAY_ID}/openai/chat/completions`, {
 			method: 'POST',
 			body: JSON.stringify({
 				model: 'gpt-4o',
